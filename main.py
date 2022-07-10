@@ -32,12 +32,19 @@ def bot():
                     author = getAuthor['first_name'] + getAuthor['last_name']
                     avatar = BytesIO(requests.get(getAuthor['photo_200']).content)
                     text = forwarded_message['text']
+
                     im = ImageCitate(text=text,creator=author,avatar=avatar)
                     r = im.work()
+
+                    print('test001')
+
                     buffer = BytesIO()
                     r.save(buffer,'jpeg')
                     buffer.seek(0)
-                    vupl.photo_messages(buffer,message['peer_id'])
+
+                    print('test002')
+
+                    print(vupl.photo_messages(buffer,message['peer_id']))
 
     return 'ok'
 
