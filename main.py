@@ -5,11 +5,11 @@ from vk_api.utils import get_random_id
 
 app = Flask(__name__)
 
-@app.route('/',method=["POST","GET"])
+@app.route('/',methods=["POST","GET"])
 def index():
     pass
 
-@app.route(envv['BOT_ADDRESS'], method=['POST'])
+@app.route(envv['BOT_ADDRESS'], methods=['POST'])
 def bot():
     data = request.get_json(force=True,silent=True)
     if not data or 'type' not in data: return 'not ok'
