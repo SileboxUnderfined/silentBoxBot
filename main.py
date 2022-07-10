@@ -36,15 +36,15 @@ def bot():
                     im = ImageCitate(text=text,creator=author,avatar=avatar)
                     r = im.work()
 
-                    print('test001')
-
                     buffer = BytesIO()
                     r.save(buffer,'jpeg')
                     buffer.seek(0)
 
-                    print('test002')
+                    result = vupl.photo_messages(buffer,message['peer_id'])[0]
+                    ownerId, photoId = result['owner_id'], result['id']
+                    attachment = f'https://vk.com/photo{ownerId}_{photoId}'
 
-                    print(vupl.photo_messages(buffer,message['peer_id']))
+                    bs.messages.send(message='Готово, держи',random_id=get_random_id(),user_id=message['from_id'],attachment=attachment)
 
     return 'ok'
 
