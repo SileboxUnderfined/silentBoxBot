@@ -1,0 +1,4 @@
+pillow
+vk_api
+flask
+gunicorn
