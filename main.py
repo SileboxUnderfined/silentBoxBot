@@ -17,9 +17,9 @@ def bot():
     data = request.get_json(force=True,silent=True)
     if not data or 'type' not in data: return 'not ok'
     if data['secret'] == envv['SECRET']:
-        message = data['object']['message']
         if data['type'] == 'confirmation': return envv['CONFIRMATION_TOKEN']
         elif data['type'] == 'message_new':
+            message = data['object']['message']
             if message['from_id'] not in users['items']:
                 bs.messages.send(message="Сначала вступи в сообщество",random_id=get_random_id(),user_id=message['from_id'])
 
