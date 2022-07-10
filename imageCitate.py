@@ -25,7 +25,7 @@ class ImageCitate:
 
         image = Image.new('RGB', imageSize)
 
-        if self.avatar != False: avatarImage = Image.open(f'avatars/{self.avatar}', 'r')
+        if self.avatar != False: avatarImage = Image.open(self.avatar, 'r')
 
         draw = ImageDraw.Draw(image)
         draw.text(signCitateOfBestCoords, "Цитаты великих людей", font=self.signFont, fill=self.whiteColor, anchor="ms")
