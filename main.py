@@ -2,6 +2,9 @@ from flask import Flask, request
 from os import environ as envv
 from vk_api import VkApi, VkUpload
 from vk_api.utils import get_random_id
+from io import BytesIO
+from imageCitate import ImageCitate
+import requests
 
 app = Flask(__name__)
 
@@ -14,17 +17,29 @@ def bot():
     data = request.get_json(force=True,silent=True)
     if not data or 'type' not in data: return 'not ok'
     if data['secret'] == envv['SECRET']:
+        message = data['object']['message']
         if data['type'] == 'confirmation': return envv['CONFIRMATION_TOKEN']
         elif data['type'] == 'message_new':
-            message = data['object']['message']
-            if data['object']['message']['from_id'] not in users['items']:
+            if message['from_id'] not in users['items']:
                 bs.messages.send(message="Сначала вступи в сообщество",random_id=get_random_id(),user_id=message['from_id'])
-                return 'ok'
+
             else:
-                bs.messages.send(message="Красава вступил в сообщество!",random_id=get_random_id(),user_id=message['from_id'])
+                forwarded_message = message['fwd_messages']
+                if len(forwarded_message) != 1: bs.messages.send(message='Перешли мне ровно одно(1) сообщение от одного(1) человека!',random_id=get_random_id(),user_id=message['from_id'])
+                else:
+                    getAuthor = bs.users.get(user_ids=forwarded_message['from_id'],fields="photo_200")['response'][0]
+                    author = getAuthor['first_name'] + getAuthor['last_name']
+                    avatar = BytesIO(requests.get(getAuthor['photo_200']).content)
+                    text = forwarded_message['text']
+                    im = ImageCitate(text=text,creator=author,avatar=avatar)
+                    r = im.work()
+                    vupl.photo_messages(r,message['peer_id'])
+
+    return 'ok'
 
 if __name__ in "__main__":
     botSession = VkApi(token=envv['VK_API_KEY'])
     bs = botSession.get_api()
+    vupl = VkUpload(bs)
     users = bs.groups.getMembers(group_id=int(envv['GROUP_ID']))
     app.run(host='0.0.0.0',port=envv['PORT'],debug=True)
