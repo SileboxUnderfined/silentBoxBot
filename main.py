@@ -27,7 +27,8 @@ def bot():
                 forwarded_message = message['fwd_messages']
                 if len(forwarded_message) != 1: bs.messages.send(message='Перешли мне ровно одно(1) сообщение от одного(1) человека!',random_id=get_random_id(),user_id=message['from_id'])
                 else:
-                    getAuthor = bs.users.get(user_ids=forwarded_message['from_id'],fields="photo_200")['response'][0]
+                    getAuthor = bs.users.get(user_ids=forwarded_message['from_id'],fields="photo_200")
+                    print(getAuthor)
                     author = getAuthor['first_name'] + getAuthor['last_name']
                     avatar = BytesIO(requests.get(getAuthor['photo_200']).content)
                     text = forwarded_message['text']
