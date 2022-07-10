@@ -42,7 +42,7 @@ def bot():
 
                     result = vupl.photo_messages(buffer,message['peer_id'])[0]
                     ownerId, photoId = result['owner_id'], result['id']
-                    attachment = f'https://vk.com/photo{ownerId}_{photoId}'
+                    attachment = f'photo{ownerId}_{photoId}'
 
                     bs.messages.send(message='Готово, держи',random_id=get_random_id(),user_id=message['from_id'],attachment=attachment)
 
