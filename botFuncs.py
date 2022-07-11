@@ -51,7 +51,10 @@ def createCatImage(vupl,bs,peer_id):
     jsoned = requests.get("https://api.thecatapi.com/v1/images/search").json()
     catImage = BytesIO(requests.get(jsoned[0]["url"]).content)
 
-    result = vupl.photo_messages(catImage,peer_id)[0]
-    attachment = getAttach(result['owner_id'],result['id'])
+    if checkAllownessOfMessagePeer(bs,peer_id,envv['GROUP_ID']):
+        result = vupl.photo_messages(catImage,peer_id)[0]
+        attachment = getAttach(result['owner_id'],result['id'])
 
-    sendMessage(bs,message="Держи кота!", peer_id=peer_id, attach=attachment)
+        sendMessage(bs,message="Держи кота!", peer_id=peer_id, attach=attachment)
+
+    else: print('невозможно загрузить фотографию')
