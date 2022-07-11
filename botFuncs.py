@@ -26,7 +26,7 @@ def createImageCitation(forwarded_message,vupl,bs, peer_id):
 
 def createCatImage(vupl,bs,peer_id):
     jsoned = requests.get("https://api.thecatapi.com/v1/images/search").json()
-    catImage = BytesIO(requests.get(jsoned["url"]).content)
+    catImage = BytesIO(requests.get(jsoned[0]["url"]).content)
 
     result = vupl.photo_messages(catImage,peer_id)[0]
     attachment = getAttach(result['owner_id'],result['id'])
