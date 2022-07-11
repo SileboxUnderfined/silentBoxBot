@@ -2,9 +2,7 @@ from flask import Flask, request
 from os import environ as envv
 from vk_api import VkApi, VkUpload
 from vk_api.utils import get_random_id
-from io import BytesIO
-from imageCitate import ImageCitate
-import requests
+import botFuncs
 
 app = Flask(__name__)
 
@@ -20,31 +18,16 @@ def bot():
         if data['type'] == 'confirmation': return envv['CONFIRMATION_TOKEN']
         elif data['type'] == 'message_new':
             message = data['object']['message']
-            if message['from_id'] not in users['items']:
-                bs.messages.send(message="Сначала вступи в сообщество",random_id=get_random_id(),user_id=message['from_id'])
+            if message['from_id'] not in users['items']: bs.messages.send(message="Сначала вступи в сообщество",random_id=get_random_id(),user_id=message['from_id'])
 
             else:
-                forwarded_messages = message['fwd_messages']
-                if len(forwarded_messages) != 1: bs.messages.send(message='Перешли мне ровно одно(1) сообщение от одного(1) человека!',random_id=get_random_id(),user_id=message['from_id'])
+                if message['peer_id'] == message['from_id']:
+                    forwarded_messages = message['fwd_messages']
+                    if len(forwarded_messages) != 1: bs.messages.send(message='Перешли мне ровно одно(1) сообщение от одного(1) человека!',random_id=get_random_id(),user_id=message['from_id'])
+                    else: botFuncs.createImageCitation(forwarded_messages[0],vupl,bs,message['peer_id'])
+
                 else:
-                    forwarded_message = forwarded_messages[0]
-                    getAuthor = bs.users.get(user_ids=forwarded_message['from_id'],fields="photo_200")[0]
-                    author = getAuthor['first_name'] + getAuthor['last_name']
-                    avatar = BytesIO(requests.get(getAuthor['photo_200']).content)
-                    text = forwarded_message['text']
-
-                    im = ImageCitate(text=text,creator=author,avatar=avatar)
-                    r = im.work()
-
-                    buffer = BytesIO()
-                    r.save(buffer,'jpeg')
-                    buffer.seek(0)
-
-                    result = vupl.photo_messages(buffer,message['peer_id'])[0]
-                    ownerId, photoId = result['owner_id'], result['id']
-                    attachment = f'photo{ownerId}_{photoId}'
-
-                    bs.messages.send(message='Готово, держи',random_id=get_random_id(),user_id=message['from_id'],attachment=attachment)
+                    if message['text'] == 'хочу кота': botFuncs.createCatImage(vupl,bs,message['peer_id'])
 
     return 'ok'
 
