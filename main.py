@@ -4,6 +4,12 @@ from vk_api import VkApi, VkUpload
 import botFuncs
 from botFuncs import sendMessage
 
+commands = {
+    "catCmds":{
+        0:['хочу кота', "хачу ката", "хк","андрей шиза должен умереть в страшных муках","@silentbox1488 хочу кота"]
+    }
+}
+
 app = Flask(__name__)
 
 @app.route('/',methods=["POST","GET"])
@@ -26,7 +32,7 @@ def bot():
                     else: botFuncs.createImageCitation(forwarded_messages[0],vupl,bs,message['peer_id'])
 
                 else:
-                    if message['text'] == 'хочу кота': botFuncs.createCatImage(vupl,bs,message['peer_id'])
+                    if message['text'] in commands['catCmds'][0]: botFuncs.createCatImage(vupl,bs,message['peer_id'])
 
     return 'ok'
 
