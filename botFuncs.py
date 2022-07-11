@@ -17,7 +17,7 @@ def checkAllownessOfMessagePeer(bs,peer_id,group_id):
     return result
 
 def sendMessage(bs,message,peer_id, attach=None):
-    if '2000000000' in peer_id: allowed = checkAllownessOfMessagePeer(bs,peer_id,envv['GROUP_ID'])
+    if '2000000000' in str(peer_id): allowed = checkAllownessOfMessagePeer(bs,peer_id,envv['GROUP_ID'])
     else: allowed = checkAllownessOfMessageUser(bs,peer_id,envv['GROUP_ID'])
     if not allowed: print('невозможно отправить сообщение')
 
