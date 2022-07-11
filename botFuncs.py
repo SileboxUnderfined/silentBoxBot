@@ -12,7 +12,7 @@ def checkAllownessOfMessageUser(bs,user_id,group_id):
 def checkAllownessOfMessagePeer(bs,peer_id,group_id):
     items = bs.messages.getConversationMembers(peer_id=peer_id,group_id=group_id)['items']
     for item in items:
-        if item['member_id'] == f"-{group_id}": result = item['is_admin']
+        if str(item['member_id']) == f"-{group_id}": result = item['is_admin']
 
     return result
 
