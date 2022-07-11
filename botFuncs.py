@@ -52,7 +52,7 @@ def createCatImage(vupl,bs,peer_id):
     catImage = BytesIO(requests.get(jsoned[0]["url"]).content)
 
     if checkAllownessOfMessagePeer(bs,peer_id,envv['GROUP_ID']):
-        result = vupl.photo_messages(catImage,peer_id)[0]
+        result = vupl.photo_messages(catImage)[0]
         attachment = getAttach(result['owner_id'],result['id'])
 
         sendMessage(bs,message="Держи кота!", peer_id=peer_id, attach=attachment)
