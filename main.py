@@ -1,8 +1,8 @@
 from flask import Flask, request
 from os import environ as envv
 from vk_api import VkApi, VkUpload
-from vk_api.utils import get_random_id
 import botFuncs
+from botFuncs import sendMessage
 
 app = Flask(__name__)
 
@@ -18,12 +18,11 @@ def bot():
         if data['type'] == 'confirmation': return envv['CONFIRMATION_TOKEN']
         elif data['type'] == 'message_new':
             message = data['object']['message']
-            if message['from_id'] not in users['items']: bs.messages.send(message="Сначала вступи в сообщество",random_id=get_random_id(),peer_id=message['from_id'])
-
+            if message['from_id'] not in users['items']: sendMessage(bs,message="Сначала вступи в сообщество",peer_id=message["from_id"])
             else:
                 if message['peer_id'] == message['from_id']:
                     forwarded_messages = message['fwd_messages']
-                    if len(forwarded_messages) != 1: bs.messages.send(message='Перешли мне ровно одно(1) сообщение от одного(1) человека!',random_id=get_random_id(),peer_id=message['from_id'])
+                    if len(forwarded_messages) != 1: sendMessage(bs,"Перешли мне ровно одно(1) сообщение", message["from_id"])
                     else: botFuncs.createImageCitation(forwarded_messages[0],vupl,bs,message['peer_id'])
 
                 else:
