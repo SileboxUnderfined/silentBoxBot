@@ -27,7 +27,10 @@ def createImageCitation(forwarded_message,vupl,bs, peer_id):
     r.save(buffer, 'jpeg')
     buffer.seek(0)
 
-    result = vupl.photo_messages(buffer, peer_id)[0]
+    try:
+        result = vupl.photo_messages(buffer, peer_id)[0]
+    except ApiError as error:
+        print('невозможно отправить фотографию ', error)
     attachment = getAttach(result['owner_id'],result['id'])
 
     sendMessage(bs,message="Готово, держи", attach=attachment, peer_id=peer_id)
