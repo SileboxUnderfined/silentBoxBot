@@ -24,7 +24,7 @@ def bot():
         if data['type'] == 'confirmation': return envv['CONFIRMATION_TOKEN']
         elif data['type'] == 'message_new':
             message = data['object']['message']
-            if message['from_id'] not in users['items']: sendMessage(bs,message="Сначала вступи в сообщество",peer_id=message["from_id"])
+            if message['from_id'] not in users['items'] and message['from_id'] == message['peer_id']: sendMessage(bs,message="Сначала вступи в сообщество",peer_id=message["from_id"])
             else:
                 if message['peer_id'] == message['from_id']:
                     forwarded_messages = message['fwd_messages']
