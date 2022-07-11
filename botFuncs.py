@@ -5,7 +5,7 @@ from os import environ as envv
 import requests
 
 def checkAllownessOfMessage(bs,peer_id,group_id):
-    result = bs.messages.isMessagesFromGroupAllowed(user_id=peer_id,group_id=group_id)[0]['is_allowed']
+    result = bs.messages.isMessagesFromGroupAllowed(user_id=peer_id,group_id=group_id)['is_allowed']
     if result == 1: return True
     else: return False
 
