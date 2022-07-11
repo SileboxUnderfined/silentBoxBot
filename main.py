@@ -32,7 +32,7 @@ def bot():
                     else: botFuncs.createImageCitation(forwarded_messages[0],vupl,bs,message['peer_id'])
 
                 else:
-                    if message['text'] in commands['catCmds'][0]: botFuncs.createCatImage(vupl,bs,message['peer_id'])
+                    if message['text'].replace("@silentbox1488","") in commands['catCmds'][0]: botFuncs.createCatImage(vupl,bs,message['peer_id'])
 
     return 'ok'
 
