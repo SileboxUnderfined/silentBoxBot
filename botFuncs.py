@@ -31,4 +31,4 @@ def createCatImage(vupl,bs,peer_id):
     result = vupl.photo_messages(catImage,peer_id)[0]
     attachment = getAttach(result['owner_id'],result['id'])
 
-    bs.messages.send(message="Держи кота!", random_id=get_random_id(), chat_id=peer_id, attachment=attachment)
+    bs.messages.send(message="Держи кота!", random_id=get_random_id(), peer_id=peer_id, attachment=attachment)
