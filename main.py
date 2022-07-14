@@ -10,6 +10,9 @@ commands = {
     },
     "beerCmds":{
         0:['хочу пиво', 'хп', 'хачу пива', 'хачу певка', 'хочу пивка']
+    },
+    "dogCmds":{
+        0:['хочу пса','хочу собаку','хочу артёма','хпс','хачу песеля']
     }
 }
 
@@ -37,6 +40,7 @@ def bot():
                 else:
                     if message['text'].replace("@silentbox1488,","") in commands['catCmds'][0]: botFuncs.createCatImage(vupl,bs,message['peer_id'])
                     elif message['text'] in commands['beerCmds'][0]: botFuncs.createBeerImage(vupl,bs,message['peer_id'])
+                    elif message['text'] in commands['dogCmds'][0]: botFuncs.createDogImage(vupl,bs,message['peer_id'])
 
     return 'ok'
 

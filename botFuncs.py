@@ -50,4 +50,13 @@ def createBeerImage(vupl,bs,peer_id):
     firstBrewed = jsoned[0]['first_brewed']
     description = jsoned[0]['description']
 
-    sendMessage(bs,message=f"Твоё пиво: {beerName}\nВпервые приготовлено {firstBrewed}\nОписание: {description}",peer_id=peer_id, attach=attachment)
+    sendMessage(bs,message=f"Твоё пиво: {beerName}\nВпервые приготовлено: {firstBrewed}\nОписание: {description}",peer_id=peer_id, attach=attachment)
+
+def createDogImage(vupl,bs,peer_id):
+    jsoned = requests.get('https://dog.ceo/api/breeds/image/random').json()
+    dogImage = BytesIO(requests.get(jsoned['message']).content)
+
+    r = vupl.photo_messages(dogImage)[0]
+    attachment = getAttach(r['owner_id'],r['id'])
+
+    sendMessage(bs,message="Держи пса!",peer_id=peer_id,attach=attachment)
