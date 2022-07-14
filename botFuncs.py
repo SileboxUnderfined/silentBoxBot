@@ -36,3 +36,18 @@ def createCatImage(vupl,bs,peer_id):
     attachment = getAttach(result['owner_id'],result['id'])
 
     sendMessage(bs,message="Держи кота!", peer_id=peer_id, attach=attachment)
+
+def createBeerImage(vupl,bs,peer_id):
+    jsoned = requests.get('https://api.punkapi.com/v2/beers/random').json()
+    srcBeerImage = jsoned[0]['image_url']
+    if srcBeerImage != None:
+        im = BytesIO(requests.get(srcBeerImage).content)
+        r = vupl.photo_messages(im)[0]
+        attachment = getAttach(r['owner_id'],r['id'])
+    else: attachment = None
+
+    beerName = jsoned[0]['name']
+    firstBrewed = jsoned[0]['first_brewed']
+    description = jsoned[0]['description']
+
+    sendMessage(bs,message=f"Твоё пиво: {beerName}\nВпервые приготовлено {firstBrewed}\nОписание: {description}",peer_id=peer_id, attach=attachment)

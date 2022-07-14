@@ -7,6 +7,9 @@ from botFuncs import sendMessage
 commands = {
     "catCmds":{
         0:['хочу кота', "хачу ката", "хк","андрей шиза должен умереть в страшных муках","@silentbox1488 хочу кота"]
+    },
+    "beerCmds":{
+        0:['хочу пиво', 'хп', 'хачу пива', 'хачу певка', 'хочу пивка']
     }
 }
 
@@ -32,7 +35,8 @@ def bot():
                     else: botFuncs.createImageCitation(forwarded_messages[0],vupl,bs,message['peer_id'])
 
                 else:
-                    if message['text'].replace("@silentbox1488","") in commands['catCmds'][0]: botFuncs.createCatImage(vupl,bs,message['peer_id'])
+                    if message['text'].replace("@silentbox1488,","") in commands['catCmds'][0]: botFuncs.createCatImage(vupl,bs,message['peer_id'])
+                    elif message['text'] in commands['beerCmds'][0]: botFuncs.createBeerImage(vupl,bs,message['peer_id'])
 
     return 'ok'
 
